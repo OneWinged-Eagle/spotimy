@@ -2,6 +2,8 @@ import json
 import spotipy
 import spotipy.util as util
 from time import perf_counter
+from typing import Any, List
+from sys import stderr
 
 import config
 
@@ -14,19 +16,22 @@ try:
 	                                   config.redirect_uri)
 	sp = spotipy.Spotify(token)
 except:
-	print("Token is not accesible for " + config.username)
+	print(f"Token is not accesible for {config.username}", file=stderr)
 
 
-def retrieve_tracks():
+def retrieve_tracks() -> List[Any]:
 	tracks = []
+
 	for albumId in [album["id"] for album in albums]:
 		offset = 0
+
 		while True:
 			items = sp.album_tracks(albumId, limit=50, offset=offset)["items"]
 			if len(items) == 0:
 				break
 			offset += 50
 			tracks.extend(items)
+
 	return tracks
 
 

@@ -2,6 +2,8 @@ import json
 import spotipy
 import spotipy.util as util
 from time import perf_counter
+from typing import Any, List
+from sys import stderr
 
 from chunker import chunker
 import config
@@ -15,7 +17,7 @@ try:
 	                                   config.redirect_uri)
 	sp = spotipy.Spotify(token)
 except:
-	print("Token is not accesible for " + config.username)
+	print(f"Token is not accesible for {config.username}", file=stderr)
 
 print("Start retrieving audio features...")
 startTime = perf_counter()
@@ -23,6 +25,7 @@ startTime = perf_counter()
 audioFeatures = []
 for tracksIds in chunker([track["id"] for track in tracks], 50):
 	audioFeatures.extend(sp.audio_features(tracksIds))
+
 audioFeatures = list(
     audioFeature for audioFeature in audioFeatures if audioFeature)
 

@@ -1,9 +1,18 @@
 import numpy as np
-
+from typing import List
 
 class KMeans:
+	X: np.ndarray
+	K: int
+	max_iter: int
+	tol: float
+	m: int
+	n: int
+	centroids: List[np.ndarray]
+	idx: np.ndarray
+	distance: np.ndarray
 
-	def __init__(self, X, K=8, max_iter=300, tol=1e-4):
+	def __init__(self, X: np.ndarray, K: int = 8, max_iter: int = 300, tol: float = 1e-4):
 		self.X = X
 		self.K = K
 		self.max_iter = max_iter

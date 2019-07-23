@@ -29,6 +29,7 @@ for K in range(1, config.max_cluster + 1):
 	km = KMeans(X, K)
 	km.run()
 	centroids.append(km.centroids)
+
 	wcss = 0
 	for k in range(K):
 		wcss += np.sum((X[km.idx == k] - km.centroids[k])**2)
